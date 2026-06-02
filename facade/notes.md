@@ -1,0 +1,2 @@
+* Use the Facade pattern when you need to have a limited but straightforward interface to a complex subsystem
+* Use the Facade when you want to structure a subsystem into layers (similar to Mediator pattern)
