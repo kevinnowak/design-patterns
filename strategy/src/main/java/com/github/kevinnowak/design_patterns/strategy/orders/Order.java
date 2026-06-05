@@ -6,9 +6,23 @@ public class Order {
 
     private int totalCost = 0;
     private boolean isClosed = false;
+    private PayStrategy strategy;
 
-    public void processOrder(PayStrategy strategy) {
-        strategy.collectPaymentDetails();
+    public void setStrategy(PayStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void processOrder() {
+        if (strategy != null) {
+            strategy.collectPaymentDetails();
+        }
+    }
+
+    public boolean pay() {
+        if (strategy != null) {
+            return strategy.pay(totalCost);
+        }
+        return false;
     }
 
     public void setTotalCost(int cost) {

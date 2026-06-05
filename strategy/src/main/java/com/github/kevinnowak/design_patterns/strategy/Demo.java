@@ -1,9 +1,8 @@
 package com.github.kevinnowak.design_patterns.strategy;
 
 import com.github.kevinnowak.design_patterns.strategy.orders.Order;
-import com.github.kevinnowak.design_patterns.strategy.strategies.PayByCreditCard;
-import com.github.kevinnowak.design_patterns.strategy.strategies.PayByPayPal;
 import com.github.kevinnowak.design_patterns.strategy.strategies.PayStrategy;
+import com.github.kevinnowak.design_patterns.strategy.strategies.PaymentMethod;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,21 +59,17 @@ public class Demo {
                 );
 
                 String paymentMethod = reader.readLine();
-
-                if (paymentMethod.equals("1")) {
-                    strategy = new PayByPayPal();
-                } else {
-                    strategy = new PayByCreditCard();
-                }
+                strategy = PaymentMethod.fromString(paymentMethod).getStrategy();
+                order.setStrategy(strategy);
             }
 
-            order.processOrder(strategy);
+            order.processOrder();
 
             IO.print("Pay " + order.getTotalCost() + " units or continue shopping? P/C: ");
             String proceed = reader.readLine();
 
             if (proceed.equalsIgnoreCase("P")) {
-                if (strategy.pay(order.getTotalCost())) {
+                if (order.pay()) {
                     IO.println("Payment has been successful.");
                 } else {
                     IO.println("Payment failed");
